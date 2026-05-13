@@ -77,10 +77,15 @@ function ProjectThumb({ project }) {
   return <GenericThumb project={project} />;
 }
 
+function projectHref(p) {
+  if (p.id === 'elitmetrics') return p.links.demo;
+  return p.links.code;
+}
+
 // ---------- Project Card (grid) ----------
 function ProjectCard({ p, t, lang, featured = false }) {
   return (
-    <a href={p.links.demo} className="proj-card group block">
+    <a href={projectHref(p)} className="proj-card group block" target="_blank" rel="noreferrer">
       <div className="proj-thumb">
         <ProjectThumb project={p} />
         {p.featured && (
@@ -115,7 +120,9 @@ function ProjectRow({ p, t, lang, idx }) {
   const [hover, setHover] = useState(false);
   return (
     <a
-      href={p.links.demo}
+      href={projectHref(p)}
+      target="_blank"
+      rel="noreferrer"
       className="relative grid grid-cols-[40px_1fr_auto] sm:grid-cols-[60px_minmax(0,1.4fr)_minmax(0,1fr)_auto] gap-5 items-center py-7 group"
       style={{ borderTop: idx === 0 ? '1px solid var(--border)' : '1px solid var(--border)' }}
       onMouseEnter={() => setHover(true)}
@@ -185,7 +192,7 @@ function Project3D({ p, t, lang }) {
   }, []);
   return (
     <div ref={wrap} className="card3d-wrap">
-      <a href={p.links.demo} ref={card} className="card3d proj-card block">
+      <a href={projectHref(p)} ref={card} className="card3d proj-card block" target="_blank" rel="noreferrer">
         <div className="proj-thumb">
           <ProjectThumb project={p} />
         </div>
