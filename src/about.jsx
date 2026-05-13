@@ -29,7 +29,7 @@ function About({ t, lang }) {
           </Reveal>
         </div>
 
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 mt-4 lg:mt-0">
           <Reveal delay={120}>
             <div className="glass-strong p-6 sm:p-7">
               <div className="eyebrow mb-4">{t.about.values_title}</div>
@@ -37,7 +37,7 @@ function About({ t, lang }) {
                 {t.about.values.map((v, i) => (
                   <li
                     key={v.k}
-                    className="grid grid-cols-[110px_1fr] gap-4 items-start py-4"
+                    className="grid grid-cols-[110px_1fr] gap-6 items-start py-4"
                     style={{ borderTop: i === 0 ? 'none' : '1px solid var(--border)' }}
                   >
                     <span className="font-mono text-[12px] uppercase tracking-widest" style={{ color: 'var(--accent)' }}>

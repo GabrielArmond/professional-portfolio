@@ -96,7 +96,7 @@ function ProjectCard({ p, t, lang, featured = false }) {
         )}
         <div className="absolute top-3 right-3 pill">{p.year}</div>
       </div>
-      <div className="p-5 sm:p-6">
+      <div className="px-6 py-5 sm:p-6">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="eyebrow mb-1">{p.tag[lang]}</div>
@@ -196,7 +196,7 @@ function Project3D({ p, t, lang }) {
         <div className="proj-thumb">
           <ProjectThumb project={p} />
         </div>
-        <div className="p-5">
+        <div className="px-6 py-5">
           <div className="flex items-baseline justify-between gap-3">
             <h3 className="text-[18px] font-medium tracking-tight" style={{ color: 'var(--text)' }}>{p.name}</h3>
             <span className="eyebrow">{p.year}</span>
@@ -305,21 +305,23 @@ function ProjectCardBig({ p, t, lang }) {
             {t.projects.featured}
           </div>
         </div>
-        <div className="p-7 sm:p-10 flex flex-col">
+        <div className="px-7 py-6 sm:p-10 flex flex-col">
           <div className="eyebrow">{p.tag[lang]}</div>
           <h3 className="mt-2 text-[32px] sm:text-[40px] font-medium tracking-tight leading-tight" style={{ color: 'var(--text)' }}>{p.name}</h3>
           <p className="mt-4 text-[15.5px]" style={{ color: 'var(--text-muted)', lineHeight: 1.65 }}>{p.description[lang]}</p>
           <div className="mt-5 flex flex-wrap gap-1.5">
             {p.stack.map((s) => <span key={s} className="pill">{s}</span>)}
           </div>
-          <div className="mt-auto pt-7 flex items-center gap-3">
-            <span className="btn btn-primary">
-              {t.projects.view_demo} <Icon name="arrow-up-right" size={14} />
-            </span>
-            <span className="btn btn-ghost">
-              <Icon name="github" size={14} /> {t.projects.view_code}
-            </span>
-            <div className="ml-auto text-right">
+          <div className="mt-auto pt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-3">
+            <div className="flex items-center gap-3">
+              <span className="btn btn-primary">
+                {t.projects.view_demo} <Icon name="arrow-up-right" size={14} />
+              </span>
+              <span className="btn btn-ghost">
+                <Icon name="github" size={14} /> {t.projects.view_code}
+              </span>
+            </div>
+            <div className="sm:ml-auto">
               <div className="font-mono text-[24px] font-medium" style={{ color: 'var(--accent)' }}>{p.metric.value}</div>
               <div className="eyebrow">{p.metric.label[lang]}</div>
             </div>

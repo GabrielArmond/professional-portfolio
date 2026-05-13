@@ -230,7 +230,7 @@ function Hero({ t, lang }) {
       {/* bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(180deg, transparent, var(--bg))' }} />
 
-      <div className="container-x relative z-10">
+      <div className="container-x relative z-10 px-5 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* LEFT — copy */}
           <div className="lg:col-span-7">
