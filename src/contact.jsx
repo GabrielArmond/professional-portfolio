@@ -9,22 +9,39 @@ import { Mail } from 'lucide-react';
 function Contact({ t, lang }) {
   const [form, setForm] = useState({ name: '', email: '', company: '', message: '' });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState(false);
   const [copied, setCopied] = useState(false);
   const [errors, setErrors] = useState({});
 
   function update(k, v) { setForm((f) => ({ ...f, [k]: v })); setErrors((e) => ({ ...e, [k]: null })); }
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
     const err = {};
     if (!form.name.trim()) err.name = true;
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) err.email = true;
     if (!form.message.trim() || form.message.length < 10) err.message = true;
     setErrors(err);
-    if (Object.keys(err).length === 0) {
+    if (Object.keys(err).length > 0) return;
+
+    setSending(true);
+    setSendError(false);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error('failed');
       setSent(true);
-      setTimeout(() => setSent(false), 6000);
       setForm({ name: '', email: '', company: '', message: '' });
+      setTimeout(() => setSent(false), 6000);
+    } catch {
+      setSendError(true);
+      setTimeout(() => setSendError(false), 5000);
+    } finally {
+      setSending(false);
     }
   }
 
@@ -154,11 +171,17 @@ function Contact({ t, lang }) {
               </div>
 
               <div className="mt-6 flex items-center justify-between gap-4 flex-wrap">
-                <div className="text-[12.5px]" style={{ color: 'var(--text-dim)' }}>
-                  {lang === 'pt' ? 'Resposta em até 24h · Sem spam, nunca.' : 'Reply within 24h · No spam, ever.'}
+                <div className="text-[12.5px]" style={{ color: sendError ? 'rgb(239,68,68)' : 'var(--text-dim)' }}>
+                  {sendError
+                    ? (lang === 'pt' ? 'Erro ao enviar. Tente novamente.' : 'Failed to send. Please try again.')
+                    : (lang === 'pt' ? 'Resposta em até 24h · Sem spam, nunca.' : 'Reply within 24h · No spam, ever.')}
                 </div>
-                <button type="submit" className="btn btn-primary">
-                  {sent ? <><Icon name="check" size={14} /> {t.contact.sent}</> : <>{t.contact.send} <Icon name="arrow-right" size={14} /></>}
+                <button type="submit" className="btn btn-primary" disabled={sending}>
+                  {sent
+                    ? <><Icon name="check" size={14} /> {t.contact.sent}</>
+                    : sending
+                      ? <><Icon name="loader" size={14} /> {lang === 'pt' ? 'Enviando…' : 'Sending…'}</>
+                      : <>{t.contact.send} <Icon name="arrow-right" size={14} /></>}
                 </button>
               </div>
             </form>
